@@ -4,5 +4,6 @@ A idéia básica deste trabalho é a criação de um modelo tridimensional que s
 g++ roda_gigante.cpp -o roda_gigante -lGL -lGLU -lglut
 ./roda_gigante
 
-https://github.com/user-attachments/assets/421ee58c-77f3-4c6e-a7b0-d997345a4561
-https://github.com/user-attachments/assets/9a44a928-d8af-4244-ad89-d27480e18993
+
+[Gravação de tela de 2025-02-15 18-56-40.webm](https://github.com/user-attachments/assets/57103a3e-fec2-4c9a-9f30-a8a2f5e4ad89)
+[Gravação de tela de 2025-02-15 18-56-17.webm](https://github.com/user-attachments/assets/5abe3701-5a4e-413c-aa1e-0ebd932b3c1c)
