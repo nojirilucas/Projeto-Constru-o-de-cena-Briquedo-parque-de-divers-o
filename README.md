@@ -6,4 +6,5 @@ g++ roda_gigante.cpp -o roda_gigante -lGL -lGLU -lglut
 
 
 [Gravação de tela de 2025-02-15 18-56-40.webm](https://github.com/user-attachments/assets/57103a3e-fec2-4c9a-9f30-a8a2f5e4ad89)
+
 [Gravação de tela de 2025-02-15 18-56-17.webm](https://github.com/user-attachments/assets/5abe3701-5a4e-413c-aa1e-0ebd932b3c1c)
