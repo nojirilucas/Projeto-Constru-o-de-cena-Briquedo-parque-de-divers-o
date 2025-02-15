@@ -133,29 +133,38 @@ void drawGround() {
 */
 void setupLights() {
     glEnable(GL_LIGHTING);  // Habilita o uso de iluminação
+    glShadeModel(GL_SMOOTH);  // Ativa Gouraud Shading para suavização da iluminação
+    
     GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };  // Define a luz ambiente
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambientLight);
 
     if (directionalLight) {
         glEnable(GL_LIGHT0);  // Habilita a luz direcional (LIGHT0)
         GLfloat lightPosition[] = { 1.0f, 1.0f, 1.0f, 0.0f };  // Define a posição da luz direcional
-        GLfloat lightColor[] = { 1.0f, 1.0f, 0.8f, 1.0f };  // Define a cor da luz direcional
+        GLfloat lightDiffuse[]  = { 1.0f, 0.9f, 0.7f, 1.0f };  // Tom mais quente
+        GLfloat lightSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };  // Reflexo branco
+
         glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightColor);
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
     } else {
         glDisable(GL_LIGHT0);  // Desabilita a luz direcional
     }
 
     if (pointLight) {
         glEnable(GL_LIGHT1);  // Habilita a luz pontual (LIGHT1)
-        GLfloat pointPosition[] = { 0.0f, -2.0f, 0.0f, 1.0f };  // Define a posição da luz pontual
-        GLfloat pointColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };  // Define a cor da luz pontual
+        GLfloat pointPosition[] = { 0.0f, -2.0f, 0.0f, 1.0f };
+        GLfloat pointDiffuse[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
+        GLfloat pointSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
         glLightfv(GL_LIGHT1, GL_POSITION, pointPosition);
-        glLightfv(GL_LIGHT1, GL_DIFFUSE, pointColor);
+        glLightfv(GL_LIGHT1, GL_DIFFUSE, pointDiffuse);
+        glLightfv(GL_LIGHT1, GL_SPECULAR, pointSpecular);
     } else {
         glDisable(GL_LIGHT1);  // Desabilita a luz pontual
     }
 }
+
 
 /*
  Função: update
@@ -190,6 +199,7 @@ void handleKeyboard(unsigned char key, int x, int y) {
  Descrição: Inicializa as configurações básicas do OpenGL, como o teste de profundidade e a cor de fundo.
 */
 void init() {
+    glShadeModel(GL_SMOOTH);  // Ativa Gouraud Shading para suavização da iluminação
     glEnable(GL_DEPTH_TEST);  // Habilita o teste de profundidade
     glEnable(GL_COLOR_MATERIAL);  // Habilita o uso de cores para materiais
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);  // Define a cor de fundo da cena
@@ -218,7 +228,40 @@ void display() {
     updateCameraPosition();  // Atualiza a posição da câmera
 
     setupLights();  // Configura as luzes
+
+    // Definição de material para melhor iluminação
+    GLfloat materialDiffuse[]  = { 0.5f, 0.5f, 0.8f, 1.0f }; // Tom azulado
+    GLfloat materialSpecular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Reflexo branco forte
+    GLfloat materialShininess  = 50.0f;  // Quanto maior, mais brilhante
+
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, materialDiffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, materialSpecular);
+    glMaterialf(GL_FRONT, GL_SHININESS, materialShininess);
+
     drawGround();  // Desenha o chão
+
+    // Base retangular da roda gigante
+    glPushMatrix();
+    glColor3f(0.6f, 0.3f, 0.1f); // Cor marrom para a base
+    glTranslatef(0.0f, -1.2f, 0.0f); // Posição no chão
+    glScalef(2.0f, 0.2f, 1.0f); // Escala para criar um retângulo alongado
+    glutSolidCube(1.0f); // Desenha um cubo alongado
+    glPopMatrix();
+
+    // Adiciona dois tubos em pé acima do retângulo
+    glPushMatrix();
+    glColor3f(0.8f, 0.0f, 0.0f); // Cor vermelha para os tubos
+    glTranslatef(-0.5f, -0.7f, 0.0f); // Posiciona o primeiro tubo
+    glRotatef(90, 1.0f, 0.0f, 0.0f); // Rotaciona o tubo para ficar em pé
+    drawCylinder(0.03f, 0.03f, 0.5f);
+    glPopMatrix();
+
+    glPushMatrix();
+    glColor3f(0.8f, 0.0f, 0.0f); // Cor vermelha para os tubos
+    glTranslatef(0.5f, -0.7f, 0.0f); // Posiciona o segundo tubo
+    glRotatef(90, 1.0f, 0.0f, 0.0f); // Rotaciona o tubo para ficar em pé
+    drawCylinder(0.03f, 0.03f, 0.5f);
+    glPopMatrix();
 
     glPushMatrix();
     glRotatef(angle, 0.0f, 0.0f, 1.0f);  // Aplica a rotação da roda gigante
