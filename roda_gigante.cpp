@@ -1,6 +1,6 @@
 /*
  Trabalho de Computação Gráfica - Simulação 3D de um brinquedo de parque
- Autor(es): Lucas Nojiri
+ Autor(es): Lucas Nojiri e Elias Mendes
  Descrição: Implementação de uma roda gigante 3D com iluminação, câmera e animação.
 */
 
